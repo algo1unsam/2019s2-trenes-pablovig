@@ -77,7 +77,7 @@ entonces delega algo en el objeto 2, y el objeto 2 para hacer lo que le pidió e
 delegar otra cosa en otro objeto 3) indicarla.
 
 ## Segunda Parte
-La administradora ferroviaria obtuvo la consesión para administrar también ramales de larga distancia y nos pide ayuda para extender el sistema para sus nuevas necesidades.
+La administradora ferroviaria obtuvo la concesión para administrar también ramales de larga distancia y nos pide ayuda para extender el sistema para sus nuevas necesidades.
 
 Para poder llevar a cabo su negocio, la empresa tendrá formaciones de corta distancia y formaciones de larga distancia. Ambas utilizan los mismos vagones y locomotoras.
 
@@ -87,6 +87,6 @@ Para poder llevar a cabo su negocio, la empresa tendrá formaciones de corta dis
   
 10. Se agrega un límite de velocidad a las formaciones. La velocidad máxima de una formación resulta de tomar el mínimo entre esta velocidad límite y la velocidad máxima teórica posible según sus locomotoras (punto 2). Para los trenes de corta distancia, la velocidad máxima es de 60 km/h. Para los trenes de larga distancia la velocidad depende las ciudades que unen. Si el tren une dos ciudades grandes, su velocidad máxima será de 200 km/h. En caso contrario el máximo son 150 km/h.
 
-11. Agregamos trenes de alta velocidad. Son trenes de larga distancia que pueden llegar a 400 kn/h. Para saber si un tren está bien armado, tiene que cumplir que:
+11. Agregamos trenes de alta velocidad. Son trenes de larga distancia que pueden llegar a 400 km/h. Para saber si un tren está bien armado, tiene que cumplir que:
     - Su velocidad máxima no puede ser menor a 250 km/h
     - Todos sus vagones deben ser livianos.
