@@ -1,5 +1,5 @@
 /** First Wollok example */
-class Tren	{
+class Formacion	{
 	
 	var property vagones = []
 	var property locomotoras = []
@@ -14,6 +14,8 @@ class Tren	{
 	
 	method esEficiente(){return locomotoras.all({locomotora => locomotora.arrastreEficiente()})}
 	
+	method pesoMaxLocomotoras(){return locomotoras.sum({locomotora => locomotora.peso()})}
+	
 	method pesoMaxVagones(){return vagones.sum({vagon => vagon.pesoTotal()})}
 	
 	method arrastreUtilTotal(){return locomotoras.sum({locomotora => locomotora.arrastreUtil()})}
@@ -21,6 +23,11 @@ class Tren	{
 	method puedeMoverse(){return self.arrastreUtilTotal() >= self.pesoMaxVagones()}
 	
 	method faltaEmpuje(){return 0.max( self.pesoMaxVagones() - self.arrastreUtilTotal() )}
+	
+	method vagonMasPesado(){return vagones.max({vagon => vagon.pesoTotal()})}
+	
+	method formacionCompleja(){return (vagones.size()+locomotoras.size() > 20) or (self.pesoMaxLocomotoras()+self.pesoMaxVagones() > 10000) }
+
 	
 	
 }
@@ -68,4 +75,52 @@ class Locomotora {
 	
 	method arrastreUtil(){return pesoArrastre-peso}
 }
+
+object deposito{
+	
+	var property formaciones = []
+	
+	var property vagonesPesados = []
+	
+	var property locomotorasSueltas = []
+	
+	var formacionElegida
+	
+	var locomotoraDisponible
+	
+	method vagonesMasPesados(){ formaciones.forEach({vagonesPesados.add({formacion => formacion.vagonMasPesado()})}) }
+	
+	method NecesitaConductor(){ return formaciones.any({formacion => formacion.formacionCompleja()}) }
+	
+	method agregarAFormacion(posicionDeFormacion){
+		
+		formacionElegida=formaciones.get(posicionDeFormacion)
+		
+		self.formacionPuedeMoverse()
+		
+	}
+	
+	method formacionPuedeMoverse(){if (formacionElegida.puedeMoverse()) self.agregaLocomotoraSuelta() }
+	
+	method estaDisponibleLocomotora(){locomotoraDisponible = locomotorasSueltas.filter({locomotora => locomotora.arrastreUtil() > formacionElegida.faltaEmpuje()}).first() }
+	
+	method agregaLocomotoraSuelta(){ 
+		
+		self.estaDisponibleLocomotora()
+		
+		formacionElegida.agregarLocomotora(locomotoraDisponible)
+		
+	}
+
+	
+}
+
+
+
+
+
+
+
+
+
 
