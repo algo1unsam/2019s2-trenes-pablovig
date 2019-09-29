@@ -8,6 +8,7 @@ describe "test trenes"{
 	var tipoVagon1
 	var tipoVagon2
 	var formacion1
+	var formacion2
 	var locom1
 	var locom2
 	
@@ -19,6 +20,7 @@ describe "test trenes"{
 		tipoVagon1 = new AnchoUtilMin()
 		tipoVagon2 = new AnchoUtilMin()
 		formacion1 = new Formacion()
+		formacion2 = new Formacion()
 		locom1 = new Locomotora()
 		locom2 = new Locomotora()
 		
@@ -89,9 +91,78 @@ test "Punto4"{
 	assert.that(formacion1.puedeMoverse())
 }
 
+test "Punto5"{
+	
+	locom1.peso(1000)
+	locom1.pesoArrastre(5000)
+	
+	locom2.peso(1200)
+	locom2.pesoArrastre(4500)
+	
+	tipoVagon1.largo(10)
+	vagonPas1.cantPasajeros(tipoVagon1)
+	
+	tipoVagon2.largo(8)
+	vagonPas2.cantPasajeros(tipoVagon2)
+	
+	formacion1.agregarVagon(vagonPas1)
+	formacion1.agregarVagon(vagonPas2)
+	
+	formacion1.agregarLocomotora(locom1)
+	formacion1.agregarLocomotora(locom2)
+	
+	assert.equals(4220,formacion1.faltaEmpuje())
+}
 
+test "Punto7"{
+	
+	locom1.peso(1000)
+	locom1.pesoArrastre(5000)
+	
+	locom2.peso(1200)
+	locom2.pesoArrastre(4500)
+	
+	tipoVagon1.largo(10)
+	vagonPas1.cantPasajeros(tipoVagon1)
+	
+	tipoVagon2.largo(8)
+	vagonPas2.cantPasajeros(tipoVagon2)
+	
+	formacion1.agregarVagon(vagonPas1)
+	formacion1.agregarVagon(vagonPas2)
+	
+	formacion1.agregarLocomotora(locom1)
+	formacion1.agregarLocomotora(locom2)
+	
+	deposito.formacionEnDeposito(formacion1)
+	
+	assert.that(deposito.NecesitaConductor())
+}
 
-
-
+test "Punto8"{
+	
+	locom1.peso(1000)
+	locom1.pesoArrastre(5000)
+	
+	locom2.peso(1200)
+	locom2.pesoArrastre(12000)
+	
+	tipoVagon1.largo(10)
+	vagonPas1.cantPasajeros(tipoVagon1)
+	
+	tipoVagon2.largo(8)
+	vagonPas2.cantPasajeros(tipoVagon2)
+	
+	formacion1.agregarVagon(vagonPas1)
+	formacion1.agregarVagon(vagonPas2)
+	
+	formacion1.agregarLocomotora(locom1)
+	
+	deposito.formacionSuelta(locom2)
+	deposito.agregarAFormacion(0)
+	deposito.formacionEnDeposito(formacion1)
+	
+	assert.that()
+}
 	
 }

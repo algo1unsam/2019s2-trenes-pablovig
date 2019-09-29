@@ -83,7 +83,9 @@ object deposito{
 	var formacionElegida
 	var locomotoraDisponible
 	
+	method formacionEnDeposito(formacion){formaciones.add(formacion)}
 	
+	method formacionSuelta(formacion){locomotorasSueltas.add(formacion)}
 	
 	method vagonesMasPesados(){ formaciones.forEach({vagonesPesados.add({formacion => formacion.vagonMasPesado()})}) }
 	
