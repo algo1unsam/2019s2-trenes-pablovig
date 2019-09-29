@@ -20,7 +20,7 @@ class Formacion	{
 	
 	method arrastreUtilTotal(){return locomotoras.sum({locomotora => locomotora.arrastreUtil()})}
 	
-	method puedeMoverse(){return self.arrastreUtilTotal() >= self.pesoMaxVagones()}
+	method puedeMoverse(){ return self.arrastreUtilTotal() >= self.pesoMaxVagones()}
 	
 	method faltaEmpuje(){return 0.max( self.pesoMaxVagones() - self.arrastreUtilTotal() )}
 	
@@ -28,32 +28,30 @@ class Formacion	{
 	
 	method formacionCompleja(){return (vagones.size()+locomotoras.size() > 20) or (self.pesoMaxLocomotoras()+self.pesoMaxVagones() > 10000) }
 
-	
-	
 }
 
 class VagonPasajeros {
 	
-	var pasajerosMax
+	var property pasajerosMax
 	
-	method cantPasajeros(vagon) {pasajerosMax=vagon.pasajerosMax()}
+	method cantPasajeros(vagon) {pasajerosMax=vagon.pasajeros()}
 	
 	method pesoTotal(){return pasajerosMax*80}
 }
 
-object anchoUtilMin {
+class AnchoUtilMin {
 	
-	var property largo=10
+	var property largo
 	
-	method pasajerosMax(){return largo*8}
+	method pasajeros(){return largo*8}
 	
 }
 
-object anchoUtilMax {
+class AnchoUtilMax {
 	
-	var property largo=10
+	var property largo
 	
-	method pasajerosMax(){return largo*10}
+	method pasajeros(){return largo*10}
 	
 }
 
@@ -79,14 +77,13 @@ class Locomotora {
 object deposito{
 	
 	var property formaciones = []
-	
 	var property vagonesPesados = []
-	
 	var property locomotorasSueltas = []
 	
 	var formacionElegida
-	
 	var locomotoraDisponible
+	
+	
 	
 	method vagonesMasPesados(){ formaciones.forEach({vagonesPesados.add({formacion => formacion.vagonMasPesado()})}) }
 	
