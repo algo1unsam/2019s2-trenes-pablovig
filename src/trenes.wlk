@@ -27,33 +27,21 @@ class Formacion	{
 	method vagonMasPesado(){return vagones.max({vagon => vagon.pesoTotal()})}
 	
 	method formacionCompleja(){return (vagones.size()+locomotoras.size() > 20) or (self.pesoMaxLocomotoras()+self.pesoMaxVagones() > 10000) }
-
+	
+	method contieneLocomotora(locomotora){return locomotoras.contains(locomotora)}
 }
 
 class VagonPasajeros {
 	
-	var property pasajerosMax
+	var  largo
 	
-	method cantPasajeros(vagon) {pasajerosMax=vagon.pasajeros()}
+	var  ancho
 	
-	method pesoTotal(){return pasajerosMax*80}
+	method personaPorAncho(){return if (ancho <= 2.5) 8 else 10}
+
+	method pesoTotal(){return self.personaPorAncho()*largo*80}
 }
 
-class AnchoUtilMin {
-	
-	var property largo
-	
-	method pasajeros(){return largo*8}
-	
-}
-
-class AnchoUtilMax {
-	
-	var property largo
-	
-	method pasajeros(){return largo*10}
-	
-}
 
 class VagonCarga{
 	
@@ -77,7 +65,6 @@ class Locomotora {
 object deposito{
 	
 	var property formaciones = []
-	var property vagonesPesados = []
 	var property locomotorasSueltas = []
 	
 	var formacionElegida
@@ -85,9 +72,11 @@ object deposito{
 	
 	method formacionEnDeposito(formacion){formaciones.add(formacion)}
 	
-	method formacionSuelta(formacion){locomotorasSueltas.add(formacion)}
+	method locomotoraSuelta(locomotora){locomotorasSueltas.add(locomotora)}
 	
-	method vagonesMasPesados(){ formaciones.forEach({vagonesPesados.add({formacion => formacion.vagonMasPesado()})}) }
+	method vagonesMasPesados(){ formaciones.map({formacion => formacion.vagonMasPesado()}) }
+	
+	method contieneVagon(vagon){return formaciones.map({formacion => formacion.vagonMasPesado()}).contains(vagon)}
 	
 	method NecesitaConductor(){ return formaciones.any({formacion => formacion.formacionCompleja()}) }
 	
@@ -99,7 +88,7 @@ object deposito{
 		
 	}
 	
-	method formacionPuedeMoverse(){if (formacionElegida.puedeMoverse()) self.agregaLocomotoraSuelta() }
+	method formacionPuedeMoverse(){if (!formacionElegida.puedeMoverse()) self.agregaLocomotoraSuelta() }
 	
 	method estaDisponibleLocomotora(){locomotoraDisponible = locomotorasSueltas.filter({locomotora => locomotora.arrastreUtil() > formacionElegida.faltaEmpuje()}).first() }
 	
@@ -110,7 +99,6 @@ object deposito{
 		formacionElegida.agregarLocomotora(locomotoraDisponible)
 		
 	}
-
 	
 }
 
