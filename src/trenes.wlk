@@ -67,36 +67,24 @@ object deposito{
 	var property formaciones = []
 	var property locomotorasSueltas = []
 	
-	var formacionElegida
-	var locomotoraDisponible
 	
 	method formacionEnDeposito(formacion){formaciones.add(formacion)}
 	
 	method locomotoraSuelta(locomotora){locomotorasSueltas.add(locomotora)}
 	
-	method vagonesMasPesados(){ formaciones.map({formacion => formacion.vagonMasPesado()}) }
-	
-	method contieneVagon(vagon){return formaciones.map({formacion => formacion.vagonMasPesado()}).contains(vagon)}
+	method vagonesMasPesados(){return formaciones.map({formacion => formacion.vagonMasPesado()}) }
 	
 	method NecesitaConductor(){ return formaciones.any({formacion => formacion.formacionCompleja()}) }
 	
-	method agregarAFormacion(posicionDeFormacion){
-		
-		formacionElegida=formaciones.get(posicionDeFormacion)
-		
-		self.formacionPuedeMoverse()
-		
-	}
+	method agregarAFormacion(formacion){if (!formacion.puedeMoverse()) self.agregaLocomotoraSuelta(formacion) }
 	
-	method formacionPuedeMoverse(){if (!formacionElegida.puedeMoverse()) self.agregaLocomotoraSuelta() }
+	method locomotoraDisponible(formacion){return locomotorasSueltas.filter({locomotora => locomotora.arrastreUtil() > formacion.faltaEmpuje()}).first() }
 	
-	method estaDisponibleLocomotora(){locomotoraDisponible = locomotorasSueltas.filter({locomotora => locomotora.arrastreUtil() > formacionElegida.faltaEmpuje()}).first() }
-	
-	method agregaLocomotoraSuelta(){ 
+	method agregaLocomotoraSuelta(formacion){ 
 		
-		self.estaDisponibleLocomotora()
+		const locomotoraDisponible = self.locomotoraDisponible(formacion)
 		
-		formacionElegida.agregarLocomotora(locomotoraDisponible)
+		formacion.agregarLocomotora(locomotoraDisponible)
 		
 	}
 	
